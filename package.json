@@ -5,8 +5,8 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"pm2": "pm2 start index.js",
-		"dev": "nodemon index.js",
+		"pm2": "pm2 start src/index.js",
+		"dev": "nodemon src/index.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
