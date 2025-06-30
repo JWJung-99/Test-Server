@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-	res.send('Hello! Welcome to Test Server!!');
+	res.send('안녕하세요? 테스트 서버입니다.');
 });
 
 app.listen(port, () => {
