@@ -5,10 +5,10 @@ files:
     destination: /home/ubuntu/Test-Server
 hooks:
   AfterInstall:
-    - location: /home/ubuntu/Test-Server/scripts/after_install.sh
+    - location: scripts/after_install.sh
       timeout: 300
       runas: root
   ApplicationStart:
-    - location: /home/ubuntu/Test-Server/scripts/application_start.sh
+    - location: scripts/application_start.sh
       timeout: 300
       runas: root
