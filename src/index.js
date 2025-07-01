@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import {
 	addNote,
 	deleteNote,
@@ -13,6 +14,7 @@ const port = 3000;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.get('/', (req, res) => {
 	res.send('안녕하세요? 테스트 서버입니다.');
