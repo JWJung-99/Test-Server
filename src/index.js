@@ -7,6 +7,9 @@ import {
 	getNotes,
 	updateNote,
 } from './db/database.js';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerOptions } from './swagger/config.js';
 
 const app = express();
 const port = 3000;
@@ -15,6 +18,14 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+// Swagger 설정
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+app.use(
+	'/api-docs',
+	swaggerUi.serve,
+	swaggerUi.setup(swaggerJSDoc(swaggerOptions))
+);
 
 app.get('/', (req, res) => {
 	res.send('안녕하세요? 테스트 서버입니다.');
