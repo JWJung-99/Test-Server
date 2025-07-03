@@ -9,7 +9,6 @@ import {
 
 const router = express.Router();
 
-// GET notes
 router.get('/', async (req, res) => {
 	const notes = await getNotes();
 

@@ -6,6 +6,12 @@ export const swaggerOptions = {
 			version: '1.0.0',
 			description: 'Notes 정보를 관리하는 RESTful API 서버',
 		},
+		servers: [
+			{
+				url: 'https://api.jinwook.site',
+				description: '배포 서버',
+			},
+		],
 	},
-	apis: ['./swagger/*.swagger.js'],
+	apis: ['./src/swagger/*.swagger.js'],
 };
