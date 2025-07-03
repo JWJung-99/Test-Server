@@ -18,6 +18,33 @@ router.get('/', async (req, res) => {
 	res.send(notes);
 });
 
+// GET note
+router.get('/:uuid', async (req, res, next) => {
+	try {
+		const uuid = req.params.uuid;
+
+		if (!uuid) {
+			const error = new Error('id를 입력하세요.');
+			error.status = 400;
+			throw error;
+		}
+
+		if (uuid.length !== 36) {
+			const error = new Error('id 형식이 올바르지 않습니다.');
+			error.status = 400;
+			throw error;
+		}
+
+		const note = await getNote(uuid);
+
+		if (note.length === 0) res.send({});
+
+		res.send(note[0]);
+	} catch (err) {
+		next(err);
+	}
+});
+
 // POST note
 router.post('/', async (req, res, next) => {
 	try {
