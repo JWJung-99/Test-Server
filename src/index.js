@@ -1,14 +1,8 @@
-import express from 'express';
 import cors from 'cors';
-import {
-	addNote,
-	deleteNote,
-	getNote,
-	getNotes,
-	updateNote,
-} from './db/database.js';
-import swaggerJSDoc from 'swagger-jsdoc';
+import express from 'express';
+import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import notesRouter from './routes/notes.js';
 import { swaggerOptions } from './swagger/config.js';
 
 const app = express();
@@ -20,12 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Swagger 설정
-const swaggerSpec = swaggerJSDoc(swaggerOptions);
-app.use(
-	'/api-docs',
-	swaggerUi.serve,
-	swaggerUi.setup(swaggerJSDoc(swaggerOptions))
-);
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get('/', (req, res) => {
 	res.send('안녕하세요? 테스트 서버입니다.');
@@ -35,115 +25,8 @@ app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`);
 });
 
-// GET notes
-app.get('/notes', async (req, res) => {
-	const notes = await getNotes();
-
-	if (notes.length === 0) res.send([]);
-
-	res.send(notes);
-});
-
-// GET note
-app.get('/note/:uuid', async (req, res, next) => {
-	try {
-		const uuid = req.params.uuid;
-
-		if (!uuid) {
-			const error = new Error('id를 입력하세요.');
-			error.status = 400;
-			throw error;
-		}
-
-		if (uuid.length !== 36) {
-			const error = new Error('id 형식이 올바르지 않습니다.');
-			error.status = 400;
-			throw error;
-		}
-
-		const note = await getNote(uuid);
-
-		if (note.length === 0) res.send({});
-
-		res.send(note[0]);
-	} catch (err) {
-		next(err);
-	}
-});
-
-app.post('/note', async (req, res, next) => {
-	try {
-		const { title, contents } = req.body;
-
-		if (!title || !contents) {
-			const error = new Error('필수 데이터를 입력하세요.');
-			error.status = 400;
-			throw error;
-		}
-
-		await addNote(title, contents);
-		res.sendStatus(201);
-	} catch (err) {
-		next(err);
-	}
-});
-
-app.put('/note/:uuid', async (req, res, next) => {
-	try {
-		const uuid = req.params.uuid;
-		const { title, contents } = req.body;
-
-		if (!uuid) {
-			const error = new Error('id를 입력하세요.');
-			error.status = 400;
-			throw error;
-		}
-
-		if (uuid.length !== 36) {
-			const error = new Error('id 형식이 올바르지 않습니다.');
-			error.status = 400;
-			throw error;
-		}
-
-		if (!title || !contents) {
-			const error = new Error('필수 데이터를 입력하세요.');
-			error.status = 400;
-			throw error;
-		}
-
-		await updateNote(uuid, title, contents);
-
-		const updatedNote = await getNote(uuid);
-
-		res.send(updatedNote);
-	} catch (err) {
-		next(err);
-	}
-});
-
-app.delete('/note/:uuid', async (req, res, next) => {
-	try {
-		const uuid = req.params.uuid;
-
-		if (!uuid) {
-			const error = new Error('id를 입력하세요.');
-			error.status = 400;
-			throw error;
-		}
-
-		if (uuid.length !== 36) {
-			const error = new Error('id 형식이 올바르지 않습니다.');
-			error.status = 400;
-			throw error;
-		}
-
-		await deleteNote(uuid);
-
-		res.sendStatus(204);
-	} catch (err) {
-		next(err);
-	}
-});
+// Notes API 라우팅
+app.use('/notes', notesRouter);
 
 // Error Handling
 app.use((err, req, res, next) => {
