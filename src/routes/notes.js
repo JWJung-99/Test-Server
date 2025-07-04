@@ -123,7 +123,7 @@ router.put('/:uuid', async (req, res, next) => {
 
 		res.status(200).send({
 			ok: 1,
-			item: updatedNote,
+			item: updatedNote[0],
 		});
 	} catch (err) {
 		next(err);
