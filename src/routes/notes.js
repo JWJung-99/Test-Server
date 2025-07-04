@@ -95,8 +95,8 @@ router.put('/:uuid', async (req, res, next) => {
 			throw error;
 		}
 
-		if (!title || !contents) {
-			const error = new Error('필수 데이터를 입력하세요.');
+		if (!title && !contents) {
+			const error = new Error('수정할 제목이나 내용을 입력하세요.');
 			error.status = 400;
 			throw error;
 		}
