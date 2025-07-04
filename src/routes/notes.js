@@ -147,9 +147,20 @@ router.delete('/:uuid', async (req, res, next) => {
 			throw error;
 		}
 
+		const note = await getNote(uuid);
+
+		if (!note || note.length === 0) {
+			const error = new Error('해당 메모를 찾을 수 없습니다.');
+			error.status = 404;
+			throw error;
+		}
+
 		await deleteNote(uuid);
 
-		res.sendStatus(204);
+		res.status(204).send({
+			ok: 1,
+			message: '메모가 삭제되었습니다.',
+		});
 	} catch (err) {
 		next(err);
 	}
