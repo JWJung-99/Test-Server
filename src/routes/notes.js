@@ -12,9 +12,13 @@ const router = express.Router();
 router.get('/', async (req, res) => {
 	const notes = await getNotes();
 
-	if (notes.length === 0) res.send([]);
+	if (notes.length === 0)
+		res.send({
+			ok: 1,
+			item: [],
+		});
 
-	res.send(notes);
+	res.send({ ok: 1, item: notes });
 });
 
 // GET note
@@ -36,9 +40,16 @@ router.get('/:uuid', async (req, res, next) => {
 
 		const note = await getNote(uuid);
 
-		if (note.length === 0) res.send({});
+		if (note.length === 0)
+			res.send({
+				ok: 1,
+				item: {},
+			});
 
-		res.send(note[0]);
+		res.send({
+			ok: 1,
+			item: note[0],
+		});
 	} catch (err) {
 		next(err);
 	}
