@@ -81,7 +81,7 @@ router.post('/', async (req, res, next) => {
 router.put('/:uuid', async (req, res, next) => {
 	try {
 		const uuid = req.params.uuid;
-		const { title, contents } = req.body;
+		let { title, contents } = req.body;
 
 		if (!uuid) {
 			const error = new Error('id를 입력하세요.');
@@ -102,6 +102,12 @@ router.put('/:uuid', async (req, res, next) => {
 		}
 
 		const previousNote = await getNote(uuid);
+
+		if (!previousNote || previousNote.length === 0) {
+			const error = new Error('해당 메모를 찾을 수 없습니다.');
+			error.status = 404;
+			throw error;
+		}
 
 		if (!title) {
 			title = previousNote[0].title;
