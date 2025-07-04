@@ -157,7 +157,7 @@ router.delete('/:uuid', async (req, res, next) => {
 
 		await deleteNote(uuid);
 
-		res.status(204).send({
+		res.status(200).send({
 			ok: 1,
 			message: '메모가 삭제되었습니다.',
 		});
