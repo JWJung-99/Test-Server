@@ -101,11 +101,24 @@ router.put('/:uuid', async (req, res, next) => {
 			throw error;
 		}
 
+		const previousNote = await getNote(uuid);
+
+		if (!title) {
+			title = previousNote[0].title;
+		}
+
+		if (!contents) {
+			contents = previousNote[0].contents;
+		}
+
 		await updateNote(uuid, title, contents);
 
 		const updatedNote = await getNote(uuid);
 
-		res.send(updatedNote);
+		res.status(200).send({
+			ok: 1,
+			item: updatedNote,
+		});
 	} catch (err) {
 		next(err);
 	}
