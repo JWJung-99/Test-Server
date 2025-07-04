@@ -40,11 +40,11 @@ router.get('/:uuid', async (req, res, next) => {
 
 		const note = await getNote(uuid);
 
-		if (note.length === 0)
-			res.send({
-				ok: 1,
-				item: {},
-			});
+		if (!note || note.length === 0) {
+			const error = new Error('해당 메모를 찾을 수 없습니다.');
+			error.status = 404;
+			throw error;
+		}
 
 		res.send({
 			ok: 1,
