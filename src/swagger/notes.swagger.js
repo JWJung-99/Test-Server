@@ -38,6 +38,17 @@
  *           type: Date
  *           example: 2025-07-04T10:45:22.000Z
  *           description: 메모 생성 일시
+ *     NoteRequestModel:
+ *       type: object
+ *       properties:
+ *         title:
+ *           type: string
+ *           example: New Note
+ *           description: 새로운 메모
+ *         contents:
+ *           type: string
+ *           example: New Contents
+ *           description: 새로운 내용
  *
  * @openapi
  * /notes:
@@ -106,6 +117,56 @@
  *                     message:
  *                       type: string
  *                       example: id 형식이 올바르지 않습니다.
+ *       500:
+ *         description: 서버 에러
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/components/schemas/ResponseErrorModel'
+ *                 - type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: Internal Server Error
+ *
+ * @openapi
+ * /notes:
+ *   post:
+ *     summary: 메모 작성
+ *     description: 메모를 작성합니다.
+ *     tags: [Notes]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/NoteRequestModel'
+ *     responses:
+ *       201:
+ *         description: Created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/components/schemas/ResponseSuccessModel'
+ *                 - type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: 메모가 추가되었습니다.
+ *       400:
+ *         description: 필수 데이터 미입력
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/components/schemas/ResponseErrorModel'
+ *                 - type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: 필수 데이터를 입력하세요.
  *       500:
  *         description: 서버 에러
  *         content:

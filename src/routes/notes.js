@@ -67,7 +67,11 @@ router.post('/', async (req, res, next) => {
 		}
 
 		await addNote(title, contents);
-		res.sendStatus(201);
+
+		res.status(201).send({
+			ok: 1,
+			message: '메모가 추가되었습니다.',
+		});
 	} catch (err) {
 		next(err);
 	}
