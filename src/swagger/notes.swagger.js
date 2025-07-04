@@ -42,7 +42,7 @@
  *           type: Date
  *           example: 2025-07-04T10:45:22.000Z
  *           description: 메모 생성 일시
- *     NoteRequestModel:
+ *     NewNoteRequestModel:
  *       type: object
  *       properties:
  *         title:
@@ -53,6 +53,17 @@
  *           type: string
  *           example: New Contents
  *           description: 새로운 내용
+ *     UpdatedNoteRequestModel:
+ *       type: object
+ *       properties:
+ *         title:
+ *           type: string
+ *           example: Updated Note
+ *           description: 수정된 메모
+ *         contents:
+ *           type: string
+ *           example: Updated Contents
+ *           description: 수정된 내용
  *
  * @openapi
  * /notes:
@@ -157,7 +168,7 @@
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/NoteRequestModel'
+ *             $ref: '#/components/schemas/NewNoteRequestModel'
  *     responses:
  *       201:
  *         description: Created
@@ -211,7 +222,7 @@
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/NoteRequestModel'
+ *             $ref: '#/components/schemas/UpdatedNoteRequestModel'
  *     responses:
  *       200:
  *         description: 메모 수정 결과
