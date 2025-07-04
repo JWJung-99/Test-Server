@@ -16,7 +16,7 @@ const pool = mysql.createPool({
  */
 export async function getNotes() {
 	const [rows] = await pool.query(
-		`SELECT BIN_TO_UUID(uuid, true) AS uuid, title, contents, created FROM notes`
+		`SELECT BIN_TO_UUID(uuid, true) AS uuid, title, contents, created, updated FROM notes`
 	);
 
 	return rows;
@@ -29,7 +29,7 @@ export async function getNotes() {
  */
 export async function getNote(uuid) {
 	const [rows] = await pool.query(
-		`SELECT BIN_TO_UUID(uuid, true) AS uuid, title, contents, created FROM notes WHERE uuid=UUID_TO_BIN('${uuid}', 1)`
+		`SELECT BIN_TO_UUID(uuid, true) AS uuid, title, contents, created, updated FROM notes WHERE uuid=UUID_TO_BIN('${uuid}', 1)`
 	);
 
 	return rows;
