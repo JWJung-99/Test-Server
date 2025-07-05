@@ -8,10 +8,16 @@ import { swaggerOptions } from './swagger/config.js';
 const app = express();
 const port = 3000;
 
+// const corsOptions = {
+// 	origin: 'https://www.domain.com',
+// 	credentials: true,
+// };
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+// app.use(cors(corsOptions));
 
 // Swagger 설정
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
